@@ -15,6 +15,7 @@ class RestInterface extends HttpServiceActor
   def receive = runRoute(routes)
 }
 
+
 trait RestApi extends HttpService with ActorLogging { actor: Actor =>
 
   implicit val timeout = Timeout(10 seconds)
