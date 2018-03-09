@@ -1,5 +1,9 @@
 package com.yunjae.spray.magement
 
+import com.yunjae.spray.magement.QuizProtocol.Quiz.jsonFormat3
+import org.json4s.Formats
+import spray.httpx.Json4sSupport
+
 /**
   * Created by USER on 2018-03-08.
   */
@@ -46,4 +50,5 @@ object QuizProtocol {
   implicit def toQuestion(quiz: Quiz): Question = Question(id = quiz.id, question = quiz.question)
 
   implicit def toAnswer(quiz: Quiz): Answer = Answer(answer = quiz.correctAnswer)
+
 }

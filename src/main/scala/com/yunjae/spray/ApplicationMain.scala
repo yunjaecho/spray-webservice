@@ -1,14 +1,19 @@
 package com.yunjae.spray
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor._
+import akka.io.IO
+import akka.pattern.ask
+import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
 import com.yunjae.spray.magement.RestInterface
-import spray.routing.SimpleRoutingApp
+import spray.can.Http
+
+import scala.concurrent.duration._
 
 /**
   * Created by USER on 2018-03-08.
   */
-object ApplicationMain extends App with SimpleRoutingApp {
+object ApplicationMain extends App {
 
   val config = ConfigFactory.load();
   val host = config.getString("http.host")
@@ -18,43 +23,18 @@ object ApplicationMain extends App with SimpleRoutingApp {
 
   val api = system.actorOf(Props(new RestInterface()), "httpInterface")
 
-  /*case class Product(number: Int, name: String, price: BigDecimal)
-  val products = List(
-    Product(1, "A", BigDecimal("100")),
-    Product(2, "B", BigDecimal("110")),
-    Product(3, "C", BigDecimal("120"))
-  )
+  implicit val executionContext = system.dispatcher
+  implicit val timeout = Timeout(10 seconds)
 
-  startServer(interface = host, port = port) {
-    import com.yunjae.spray.ApplicationMain.Product
-
-    get {
-      path("hello" / Rest ) { name => {
-          complete {
-           s"Hello! $name"
-          }
-        }
-      }
-    } ~
-    get {
-      path("product" / IntNumber / "info") { productNumber => {
-          complete {
-            //products.find(_.number == productNumber).getOrElse("Not found")
-            products.find(_.number == productNumber).fold("Not found")(_.toString)
-          }
-        }
-      }
-    } ~
-    post {
-      path("tell") {
-        parameter('id.as[Int], 'name?) {(id, name) =>
-          {
-            complete {
-              s"ID: $id and name is ${name.getOrElse("Unknown")}"
-            }
-          }
-        }
-      }
+  IO(Http).ask(Http.Bind(listener = api, interface = host, port = port))
+    .mapTo[Http.Event]
+    .map {
+      case Http.Bound(address) =>
+        println(s"REST interface bound to $address")
+      case Http.CommandFailed(cmd) =>
+        println("REST interface could not bind to " +
+          s"$host:$port, ${cmd.failureMessage}")
+        system.shutdown()
     }
-  }*/
+
 }
