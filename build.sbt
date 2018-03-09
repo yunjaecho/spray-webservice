@@ -26,4 +26,4 @@ libraryDependencies ++=
   )
 
 // Assembly settings
-mainClass in Global := Some("com.yunjae.spray.ApplicationMain")
+mainClass in Global := Some("com.yunjae.spray.quiz.ApplicationMain")

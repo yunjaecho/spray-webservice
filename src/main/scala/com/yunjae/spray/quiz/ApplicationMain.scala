@@ -1,14 +1,11 @@
-package com.yunjae.spray
+package com.yunjae.spray.quiz
 
-import akka.actor._
+import akka.actor.{ActorSystem, Props}
 import akka.io.IO
-import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
-import com.yunjae.spray.magement.RestInterface
+import com.yunjae.spray.quiz.magement.RestInterface
 import spray.can.Http
-
-import scala.concurrent.duration._
 
 /**
   * Created by USER on 2018-03-08.

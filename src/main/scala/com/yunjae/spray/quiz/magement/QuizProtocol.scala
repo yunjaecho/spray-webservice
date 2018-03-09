@@ -1,8 +1,4 @@
-package com.yunjae.spray.magement
-
-import com.yunjae.spray.magement.QuizProtocol.Quiz.jsonFormat3
-import org.json4s.Formats
-import spray.httpx.Json4sSupport
+package com.yunjae.spray.quiz.magement
 
 /**
   * Created by USER on 2018-03-08.

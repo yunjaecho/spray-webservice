@@ -1,9 +1,9 @@
-package com.yunjae.spray.magement
+package com.yunjae.spray.quiz.magement
 
 import akka.actor._
 import akka.util.Timeout
+import com.yunjae.spray.quiz.magement.QuizProtocol._
 import spray.http.StatusCodes
-import spray.httpx.SprayJsonSupport._
 import spray.routing._
 
 import scala.concurrent.duration._
@@ -16,7 +16,6 @@ class RestInterface extends HttpServiceActor
 }
 
 trait RestApi extends HttpService with ActorLogging { actor: Actor =>
-  import com.yunjae.spray.magement.QuizProtocol._
 
   implicit val timeout = Timeout(10 seconds)
 
@@ -108,7 +107,6 @@ trait RestApi extends HttpService with ActorLogging { actor: Actor =>
 }
 
 class Responder(requestContext:RequestContext) extends Actor with ActorLogging {
-  import com.yunjae.spray.magement.QuizProtocol._
 
   def receive = {
 
